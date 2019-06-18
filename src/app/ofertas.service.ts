@@ -13,23 +13,41 @@ export class OfertasService {
     constructor(private http: HttpClient) { }
 
     public getOfertas(): Promise<Oferta[]> {
-        return this.http.get(`${ENDPOINT}?destaque=true`)
+        return this.http.get(`${ENDPOINT}/ofertas?destaque=true`)
          .toPromise()
          .then((resposta: any) => resposta);
     }
 
     public getOfertasPorCategoria(categoria: string): Promise<Oferta[]> {
-        return this.http.get(`${ENDPOINT}?categoria=${categoria}`)
+        return this.http.get(`${ENDPOINT}/ofertas?categoria=${categoria}`)
         .toPromise()
         .then((resposta: any) => resposta);
     }
 
     public getOfertaById(id: number): Promise<Oferta> {
-        return this.http.get(`${ENDPOINT}?id=${id}`)
+        return this.http.get(`${ENDPOINT}/ofertas?id=${id}`)
         .toPromise()
         .then((resposta: Oferta) => {
             this.resposta = JSON.stringify(resposta);
             return resposta[0];
+        });
+    }
+
+    public getComoUsarOfertaById(id: number): Promise<string> {
+        return this.http.get(`${ENDPOINT}/como-usar?id=${id}`)
+        .toPromise()
+        .then((resposta: any) => {
+            this.resposta = JSON.stringify(resposta);
+            return resposta[0].descricao;
+        });
+    }
+
+    public getOndeFicaOfertaById(id: number): Promise<string> {
+        return this.http.get(`${ENDPOINT}/onde-fica?id=${id}`)
+        .toPromise()
+        .then((resposta: any) => {
+            this.resposta = JSON.stringify(resposta);
+            return resposta[0].descricao;
         });
     }
 
